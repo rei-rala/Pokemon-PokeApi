@@ -1,5 +1,34 @@
-const pURL = 'https://pokeapi.co/api/v2/pokemon'
-const resultado = document.getElementById('resultado')
+const pURL = 'https://pokeapi.co/api/v2/pokemon';
+const resultado = document.getElementById('resultado');
+const seleccion = document.getElementById('seleccion');
+let pokes = 0;
+
+
+resultado.addEventListener('dragstart', e => {
+  //console.log(e)
+  e.dataTransfer.setData("text", e.target.id)
+})
+
+seleccion.addEventListener('dragover', e => {
+  if (seleccion.childElementCount == 6) {
+    return
+  }
+  e.preventDefault();
+})
+
+seleccion.addEventListener('drop', e => {
+  e.preventDefault();
+  // MAXIMO DE SELECCION DEBE SER 6
+  if (seleccion.childElementCount == 6) {
+    return console.error('Maximo alcanzado')
+  }
+  newItem = document.getElementById(e.dataTransfer.getData("text"));
+  newItem.classList.remove('card');
+  newItem.classList.add('pokeTeam');
+  seleccion.appendChild(newItem)
+})
+
+
 document.querySelector('BUTTON').addEventListener('click', e => {
   let pokemonSelect = document.getElementById('pokeInput').value
 
@@ -15,33 +44,43 @@ document.querySelector('BUTTON').addEventListener('click', e => {
 
 //version funcion + callback
 function add(poke) {
+
   const xhr = new XMLHttpRequest();
   xhr.open("get", pURL + '/' + poke);
   xhr.send();
 
   xhr.addEventListener("load", e => {
+    if (resultado.childElementCount == 14) {
+      return console.warn('Limite alcanzado, no se agrego la seleccion')
+    }
     if (e.target.status != 200) {
       console.warn(`No encontrado ${e.target.response}`)
     }
 
     if (e.target.status == 200) {
-      const selectionJSON = JSON.parse(e.target.response)
-      const frag = document.createDocumentFragment()
+      pokes++;
 
+      const selectionJSON = JSON.parse(e.target.response)
+      const dataPokeId = selectionJSON.id;
+      const dataPokeName = selectionJSON.name;
+      const dataPokeSprite = selectionJSON.sprites;
+      const dataPokeMoveList = selectionJSON.moves;
+
+      const frag = document.createDocumentFragment()
       const li = document.createElement('LI');
+
 
       let moves = 0;
       let movesAdded = '';
+      let pokeMoves = moveGenerator()
+
       function moveGenerator() {
-        if (selectionJSON.moves.length == 0) {
-          return ''
+        if (dataPokeMoveList.length == 0) {
+          return '-'
         }
-
-        //let generados = [];
-
         try {
           while (moves < 4) {
-            let newMove = selectionJSON.moves[Math.floor(Math.random() * selectionJSON.moves.length)].move['name'];
+            let newMove = dataPokeMoveList[Math.floor(Math.random() * dataPokeMoveList.length)].move['name'];
             if (movesAdded.includes(newMove)) {
               moveGenerator()
             }
@@ -52,38 +91,36 @@ function add(poke) {
             }
           }
         }
+        catch {
+          return ''
+        }
         finally {
           return movesAdded
         }
       }
 
-
-      li.classList.add('card')
-      li.draggable = true
+      li.classList.add('card');
+      li.dataset.pokeId = dataPokeId;
+      li.dataset.pokeName = dataPokeName;
+      li.dataset.pokeSprite = dataPokeSprite.front_default
+      li.draggable = true;
+      li.id = `_${pokes}`;
       li.innerHTML = `
+      <span class='idPoke'>#${pokes}</span>
       <div class="card-title">
-        <h4>${selectionJSON.id}</h4>
-        <h3>${selectionJSON.name}</h3>
+        <h4>${dataPokeId}</h4>
+        <h3>${dataPokeName}</h3>
       </div>
 
-      <img src="${selectionJSON.sprites.front_default}" alt="${selectionJSON.name}" title='${selectionJSON.name}' draggable="false">
+      <img src="${dataPokeSprite.front_default}" alt="${dataPokeName}" title='${dataPokeName + ' #' + pokes}' class='sprite' draggable="false">
     
       <ul>
-        ${moveGenerator()}
+        ${pokeMoves}
       </ul>
       `;
       //<li class='moves'>${selectionJSON.moves[Math.floor(Math.random() * selectionJSON.moves.length)].move['name']}</li>
       frag.appendChild(li)
       resultado.appendChild(frag)
-
-      console.log(selectionJSON.id)
-      console.info(selectionJSON.name)
-      console.log(selectionJSON.moves[0].move['name'])
-      console.log(selectionJSON.moves[1].move['name'])
-      console.log(selectionJSON.moves[2].move['name'])
-      console.log(selectionJSON.moves[3].move['name'])
-      console.log(selectionJSON.moves[4].move['name'])
-      console.log(selectionJSON.moves[4].move['name'])
     }
   })
 }

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Poppins:wght@300&display=swap");
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,15 +6,18 @@
   list-style-type: none;
 }
 header {
-  text-align: center;
+  margin-top: 2.5%;
+  display: flex;
+  justify-content: center;
+}
+header > img {
+  width: 200px;
 }
 
 .contenedor {
-  margin-top: 5px;
+  margin-top: 5%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  justify-content: center;
 }
 
 #resultado,
@@ -24,11 +28,11 @@ header {
   border: 3px solid green;
   border-radius: 15px;
 
-  width: 90%;
+  width: 95%;
   min-height: 100px;
   background-color: rgba(255, 140, 0, 0.25);
 
-  padding: 5%;
+  padding: 1.5%;
   gap: 15px;
 }
 
@@ -36,21 +40,79 @@ header {
   background-color: rgba(95, 158, 160, 0.25);
 }
 
-.card {
-  cursor: help;
+.card,
+.pokeTeam {
+  cursor: grab;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   background-color: rgba(0, 255, 13, 0.5);
-  border: 5px outset rgba(0, 0, 0, 0.5);
+  border: 3px solid rgba(0, 0, 0, 0.5);
   border-radius: 15px;
   width: 150px;
-  min-width: 150px;
-  height: 250px;
+  height: 225px;
   box-shadow: 5px 5px 10px gray;
-  padding: 2%;
-  animation: 0.5s go 1;
+  padding: 0.5%;
+  animation: 250ms go 1;
+}
+
+.pokeTeam {
+  cursor: default;
+  border: 6px outset rgb(255, 196, 0);
+  color: rgb(82, 63, 0);
+  background: rgb(255, 200, 0);
+  background: linear-gradient(
+    to bottom right,
+    rgba(250, 200, 0, 1) 0% 25%,
+    rgb(150, 120, 0, 0.9) 85% 95%,
+    rgb(150, 120, 0, 1) 100%
+  );
+  background-position: 10%;
+  width: 180px;
+  height: 250px;
+}
+
+.idPoke {
+  top: 30%;
+  left: 20%;
+  position: relative;
+  color: rgba(65, 0, 126, 0.25);
+}
+
+.card-title {
+  display: flex;
+  gap: 7.5%;
+  font-family: "Poppins", sans-serif;
+  text-transform: capitalize;
+  font-size: 0.8rem;
+}
+.moves {
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8rem;
+}
+
+.sprite {
+  max-width: 50%;
+  max-height: 100px;
+}
+
+.pokeTeam .idPoke {
+  top: 25%;
+  left: 25%;
+  font-weight: bold;
+}
+.pokeTeam .card-title {
+  font-size: 1rem;
+}
+.pokeTeam .moves {
+  font-size: 1rem;
+}
+
+.pokeTeam .sprite {
+  max-width: 100%;
+  height: 100px;
 }
 
 @keyframes go {
@@ -60,17 +122,4 @@ header {
   to {
     transform: scale(1);
   }
-}
-
-.card-title {
-  display: flex;
-  gap: 7.5%;
-  text-transform: capitalize;
-}
-.card img {
-  width: 70%;
-}
-
-.moves {
-  text-align: center;
 }
