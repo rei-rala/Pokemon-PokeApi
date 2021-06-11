@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Pokemon</h1><br>
+    </header>
+    <section class="contenedor">
+        <form name="buscador">
+            <input type="text" name="identificador" id='pokeInput' placeholder="ID / Pokemon" required>
+            <button>Agregar</button>
+        </form>
+        <ul id="resultado">
+
+        </ul>
+    </section>
+
+    <section class="contenedor">
+        <ul id="seleccion">
+
+        </ul>
+    </section>
+
+
+
+    <script src="ajaxOld.js"></script>
+</body>
+
+</html>
+<!--
+    Desafío básico
+    Tenemos una buscador de pokemón, debe permitir buscar un pokemon por su nombre exacto, o por su número
+    Al pulsar el botón "Agregar" quiero que se agregue una tarjeta del pokemón encontrado en la lista
+    Utilizar el Api REST de pokemón (https://pokeapi.co/)
+    La tarjeta debe mostrar la foto de frente del pokemón, su número, nombre y nombres de los primeros 5 ataques
+    Cada tarjeta debe tener como id, el número de pokemón.
+
+    --------------------------
+
+    Desafío extra
+    crear una variante del anterior.
+    Quiero tener dos listas ul. La primera (resultado) debe mostrar las tarjetas que sea agregan con el formulario.
+    Luego quiero otra lista ul (elegidos). Las tarjetas de la lista resultado deben poder arrastrarse a la nueva lista.
+     
+    Datos:
+    Un elemento con el atributo draggable en true puede ser arrastrado por el DOM.
+    El evento dragstart se lanza cuando un elemento empieza a ser arrastrado. Sólo se lanza una vez.
+    dataTransfer tiene un método llamado setData("nombre_dato", "valor_dato") que permite almacenar información, por ejemplo cuando empiezo a arrastrar un elemento podria guardar su id
+    dataTransfer tiene otro método llamado getData("nombre_dato") que me permite recuperar un dato almacenado, por ejemplo cuando suelto un elemento puedo recuperar su id
+    
+    MDN y Alumni tienen más info
+
+    ---------------------------
+
+    Pueden consultarme!
+-->
