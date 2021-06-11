@@ -22,7 +22,7 @@ seleccion.addEventListener('drop', e => {
   if (seleccion.childElementCount == 6) {
     return console.error('Maximo alcanzado')
   }
-  newItem = document.getElementById(e.dataTransfer.getData("text"));
+  let newItem = document.getElementById(e.dataTransfer.getData("text"));
   newItem.classList.remove('card');
   newItem.classList.add('pokeTeam');
   seleccion.appendChild(newItem)
@@ -54,7 +54,7 @@ function add(poke) {
       return console.warn('Limite alcanzado, no se agrego la seleccion')
     }
     if (e.target.status != 200) {
-      console.warn(`No encontrado ${e.target.response}`)
+      console.warn(`No encontrado ${poke}`)
     }
 
     if (e.target.status == 200) {
