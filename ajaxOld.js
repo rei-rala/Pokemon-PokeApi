@@ -1,4 +1,3 @@
-const pURL = 'https://pokeapi.co/api/v2/pokemon';
 const resultado = document.getElementById('resultado');
 const seleccion = document.getElementById('seleccion');
 let pokes = 0;
@@ -30,21 +29,24 @@ seleccion.addEventListener('drop', e => {
 
 
 document.querySelector('BUTTON').addEventListener('click', e => {
-  let pokemonSelect = document.getElementById('pokeInput').value
-
-  isNaN(pokemonSelect) ? {} : (
-    pokemonSelect = parseInt(pokemonSelect)
-  )
-
   e.stopPropagation();
   e.preventDefault();
-  add(pokemonSelect)
-  pokemonSelect = ''
+
+  let pokemonSelect = document.getElementById('pokeInput').value
+
+  if (isNaN(pokemonSelect)) {
+    pokemonSelect = pokemonSelect.toLowerCase()
+  } else {
+    pokemonSelect = parseInt(pokemonSelect)
+  }
+
+  add(pokemonSelect);
+  document.getElementById('pokeInput').value = '';
 })
 
 //version funcion + callback
 function add(poke) {
-
+  const pURL = 'https://pokeapi.co/api/v2/pokemon';
   const xhr = new XMLHttpRequest();
   xhr.open("get", pURL + '/' + poke);
   xhr.send();
@@ -82,7 +84,7 @@ function add(poke) {
           while (moves < 4) {
             let newMove = dataPokeMoveList[Math.floor(Math.random() * dataPokeMoveList.length)].move['name'];
             if (movesAdded.includes(newMove)) {
-              moveGenerator()
+              dataPokeMoveList.length == 1 ? dataPokeMoveList.move[0] : moveGenerator();
             }
             else {
               movesAdded += `<li class='moves'>${newMove}</li>`
@@ -92,7 +94,7 @@ function add(poke) {
           }
         }
         catch {
-          return ''
+          return '-'
         }
         finally {
           return movesAdded
@@ -100,6 +102,7 @@ function add(poke) {
       }
 
       li.classList.add('card');
+      li.classList.add('newCard');
       li.dataset.pokeId = dataPokeId;
       li.dataset.pokeName = dataPokeName;
       li.dataset.pokeSprite = dataPokeSprite.front_default
@@ -121,6 +124,9 @@ function add(poke) {
       //<li class='moves'>${selectionJSON.moves[Math.floor(Math.random() * selectionJSON.moves.length)].move['name']}</li>
       frag.appendChild(li)
       resultado.appendChild(frag)
+      setTimeout(() => {
+        document.getElementById(li.id).classList.remove('newCard')
+      }, 1000)
     }
   })
 }
